@@ -3,6 +3,7 @@ package ro.pub.cs.systems.eim.practicaltest02;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -28,13 +29,15 @@ public class ServerThread extends Thread {
     void startServer() {
         isRunning = true;
         start();
-        Log.v(Constants.TAG, "startServer() method invoked " + serverSocket);
+//        Log.v(Constants.TAG, "startServer() method invoked " + serverSocket);
     }
 
     @Override
     public void run() {
         try {
-            serverSocket = new ServerSocket(port);
+
+//            serverSocket.bind(new InetSocketAddress(port));
+//            serverSocket = new ServerSocket(port);
             while (isRunning) {
                 Socket socket = serverSocket.accept();
                 if (socket != null) {

@@ -20,6 +20,7 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
     TextView resultTextView;
 
     private ServerThread serverThread;
+    private ClientThread clientThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,6 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Clicked on serverButton", Toast.LENGTH_SHORT).show();
                 if (serverPortEditText.getText().toString().equals("")) {
                     Toast.makeText(v.getContext(), "Please select a port to connect", Toast.LENGTH_SHORT).show();
                     Log.d(Constants.TAG, "server port not selected");
@@ -54,7 +54,23 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Clicked on clientButton", Toast.LENGTH_SHORT).show();
+                if (clientPortEditText.getText().toString().equals("")) {
+                    Toast.makeText(v.getContext(), "Please select a port to connect", Toast.LENGTH_SHORT).show();
+                    Log.d(Constants.TAG, "server port not selected");
+                    return;
+                }
+
+                if (requestedUrlEditText.getText().toString().equals("")) {
+                    Toast.makeText(v.getContext(), "Please enter a URL", Toast.LENGTH_SHORT).show();
+                    Log.d(Constants.TAG, "URL not selected");
+                    return;
+                }
+
+                int port = Integer.valueOf(clientPortEditText.getText().toString());
+                String url = requestedUrlEditText.getText().toString();
+                clientThread = new ClientThread(port, url, resultTextView);
+                clientThread.start();
+
             }
         });
     }
