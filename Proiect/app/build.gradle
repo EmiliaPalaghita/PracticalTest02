@@ -1,15 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 27
     defaultConfig {
         applicationId "ro.pub.cs.systems.eim.practicaltest02"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    useLibrary 'org.apache.http.legacy'
+
     buildTypes {
         release {
             minifyEnabled false

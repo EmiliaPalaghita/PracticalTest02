@@ -1,6 +1,7 @@
 package ro.pub.cs.systems.eim.practicaltest02;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
     EditText requestedUrlEditText;
     Button clientButton;
     TextView resultTextView;
+
+    private ServerThread serverThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,15 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Clicked on serverButton", Toast.LENGTH_SHORT).show();
+                if (serverPortEditText.getText().toString().equals("")) {
+                    Toast.makeText(v.getContext(), "Please select a port to connect", Toast.LENGTH_SHORT).show();
+                    Log.d(Constants.TAG, "server port not selected");
+                } else {
+                    int port = Integer.valueOf(serverPortEditText.getText().toString());
+                    serverThread = new ServerThread(port);
+                    serverThread.startServer();
+                    Log.v(Constants.TAG, "Starting server...");
+                }
             }
         });
 
@@ -45,5 +57,13 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
                 Toast.makeText(v.getContext(), "Clicked on clientButton", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (serverThread != null) {
+            serverThread.stopServer();
+        }
+        super.onDestroy();
     }
 }
